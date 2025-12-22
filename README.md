@@ -56,7 +56,3 @@ SkillSwap provides:
 - Location-based peer discovery
 - Mobile app version (Flutter)
 
-
-
-## 📄 License
-This project is for educational and hackathon purposes.
