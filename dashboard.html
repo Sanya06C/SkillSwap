@@ -1,24 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Dashboard</title>
+  <meta charset="UTF-8">
+  <title>SkillSwap Dashboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h2>Welcome to Your Dashboard</h2>
+  <div class="dashboard">
 
-  <div class="card">
-    <h3>Post a Skill</h3>
-    <p>Share what you know</p>
+    <!-- LEFT SIDEBAR -->
+    <div class="sidebar">
+      <h2 class="logo">SkillSwap</h2>
+
+      <button class="side-btn">👤 My Profile</button>
+      <button class="side-btn">🔍 Explore Skills</button>
+      <button class="side-btn">📩 Requests</button>
+      <button class="side-btn">🎁 Rewards</button>
+      <button class="side-btn">⭐ Points Earned</button>
+    </div>
+
+    <!-- RIGHT CONTENT -->
+    <div class="main-content">
+      <h2 class="title">Welcome Back 👋</h2>
+      <p class="subtitle">What would you like to do today?</p>
+
+      <div class="card">
+        <h3>Post a Skill</h3>
+        <p>Share what you know with others</p>
+        <button>Post Skill</button>
+      </div>
+
+      <div class="card">
+        <h3>Browse Skills</h3>
+        <p>Learn from peers across domains</p>
+        <button>Browse</button>
+      </div>
+    </div>
+
   </div>
-
-  <div class="card">
-    <h3>Browse Skills</h3>
-    <p>Learn from peers</p>
-  </div>
-
-  
 
 </body>
 </html>
