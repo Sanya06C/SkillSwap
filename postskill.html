@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Post a Skill | SkillSwap</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-bg">
+
+  <div class="login-box">
+    <h2>Post a Skill 🎓</h2>
+    <p class="login-sub">Share what you can teach</p>
+
+    <input type="text" id="skillName" placeholder="Skill Name (e.g. Python)" />
+    <input type="text" id="days" placeholder="Available Days (Mon, Wed)" />
+    <input type="text" id="time" placeholder="Available Time (6 PM – 8 PM)" />
+    <input type="text" id="desc" placeholder="Short Description" />
+
+    <button onclick="postSkill()" class="login-btn">Post Skill</button>
+
+    <p class="switch-link">
+      ← <a href="dashboard.html">Back to Dashboard</a>
+    </p>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <script src="script.js"></script>
+</body>
+</html>
