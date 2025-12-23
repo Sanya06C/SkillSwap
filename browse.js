@@ -58,16 +58,30 @@ function displayMentors(mentors) {
     const card = document.createElement("div");
     card.className = "mentor-card";
 
-    card.innerHTML = `
-      <h3>${m.skillName}</h3>
-      <p><strong>Mentor:</strong> ${m.mentorName}</p>
-      <p><strong>Email:</strong> ${m.mentorEmail}</p>
-      <p><strong>Days:</strong> ${m.days}</p>
-      <p><strong>Time:</strong> ${m.time}</p>
-      <p><strong>Description:</strong> ${m.description}</p>
-      <button onclick="sendRequest('${m.userID}', '${m.skillName}')" id="btn-${m.userID}-${m.skillName}">Request Mentor</button>
+    // Fetch mentor's branch + year using mentor's userID
+db.collection("users").doc(m.userID).get().then(userDoc => {
+  let userData = userDoc.data();
 
-    `;
+  card.innerHTML = `
+    <h3>${m.skillName}</h3>
+
+    <p><strong>Mentor:</strong> ${m.mentorName}</p>
+    <p><strong>Email:</strong> ${m.mentorEmail}</p>
+
+    <p><strong>Branch:</strong> ${userData.Branch}</p>
+    <p><strong>Year:</strong> ${userData.year}</p>
+
+    <p><strong>Days:</strong> ${m.days}</p>
+    <p><strong>Time:</strong> ${m.time}</p>
+    <p><strong>Description:</strong> ${m.description}</p>
+
+    <button onclick="sendRequest('${m.userID}', '${m.skillName}')" 
+            id="btn-${m.userID}-${m.skillName}">
+      Request Mentor
+    </button>
+  `;
+});
+
 
     mentorList.appendChild(card);
   });

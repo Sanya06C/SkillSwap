@@ -33,17 +33,23 @@ function loadSentRequests(user) {
         card.className = "mentor-card";
 
         card.innerHTML = `
-          <h3>${r.skill}</h3>
+  <h3>${r.skill}</h3>
 
-          <p><strong>Mentor:</strong> ${mentor.name}</p>
-          <p><strong>Email:</strong> ${mentor.email}</p>
+  <p><strong>Mentor:</strong> ${mentor.name}</p>
+  <p><strong>Email:</strong> ${mentor.email}</p>
+  <p><strong>Branch:</strong> ${mentor.Branch}</p>
+  <p><strong>Year:</strong> ${mentor.year}</p>
 
-          <p><strong>Status:</strong> ${
-            r.status === "pending"
-            ? "⏳ Pending"
-            : "✔ Accepted"
-          }</p>
-        `;
+  <p><strong>Status:</strong> ${
+    r.status === "pending"
+  ? "⏳ Pending"
+  : r.status === "accepted"
+  ? "✔ Accepted"
+  : "🏁 Completed"
+
+  }</p>
+`;
+
 
         sentList.appendChild(card);
       }

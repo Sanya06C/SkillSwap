@@ -40,10 +40,13 @@ function signup() {
 
       // Save user data to Firestore
       return db.collection("users").doc(user.uid).set({
-        email: email,
-        name: name,
-        points: 0
-      });
+    name: name,
+    email: email,
+    branch: branch,
+    year: year,
+    points: 0
+    });
+
     })
     .then(() => {
       alert("Account created successfully!");
@@ -60,6 +63,9 @@ function postSkill() {
   const days = document.getElementById("days").value;
   const time = document.getElementById("time").value;
   const desc = document.getElementById("desc").value;
+  const branch = document.getElementById("branch").value;
+  const year = document.getElementById("year").value;
+
 
   const user = auth.currentUser;
 

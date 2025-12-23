@@ -36,18 +36,23 @@ function loadRequests(user) {
         const card = document.createElement("div");
         card.className = "mentor-card";
 
+        // --- FIXED TEMPLATE LITERAL ---
         card.innerHTML = `
           <h3>${r.skill}</h3>
 
           <p><strong>Learner:</strong> ${learner.name}</p>
           <p><strong>Email:</strong> ${learner.email}</p>
+          <p><strong>Branch:</strong> ${learner.Branch}</p>
+          <p><strong>Year:</strong> ${learner.year}</p>
 
           <p><strong>Status:</strong> ${r.status}</p>
 
           ${
             r.status === "pending"
               ? `<button onclick="acceptRequest('${doc.id}', '${r.from}')">Accept</button>`
-              : `<p class="accepted-label">✔ Accepted — Session Confirmed</p>`
+              : r.status === "accepted"
+              ? `<button onclick="completeRequest('${doc.id}', '${r.from}')">Mark Completed</button>`
+              : `<p class="accepted-label">✔ Completed</p>`
           }
         `;
 
@@ -81,3 +86,22 @@ function acceptRequest(requestID, learnerID) {
 
 // Start: wait for auth, then load requests
 waitForAuth(loadRequests);
+
+
+function completeRequest(requestID, learnerID) {
+  const mentor = auth.currentUser;
+  if (!mentor) return;
+
+  const learnerRef = db.collection("users").doc(learnerID);
+  const requestRef = db.collection("requests").doc(requestID);
+
+  const batch = db.batch();
+
+  batch.update(requestRef, { status: "completed" });
+  batch.update(learnerRef, { points: firebase.firestore.FieldValue.increment(10) });
+
+  batch.commit().then(() => {
+    alert("Session marked as completed! Learner gets +10 points 🎉");
+    waitForAuth(loadRequests);
+  });
+}
