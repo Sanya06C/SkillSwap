@@ -26,6 +26,16 @@ body {
 .dashboard, .browse-page {
     display: flex;
     min-height: 100vh;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #1f1c2c, #0f0c29);
+  color: white;
+}
+
+
+/* Dashboard layout */
+.dashboard {
+  display: flex;
+  height: 100%;
 }
 
 .main-content, .browse-page {
@@ -353,3 +363,78 @@ input:focus, .search-bar:focus {
         padding: 60px 20px;
     }
 }
+.accepted-label {
+  color: #8ef58e;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.profile-container {
+  width: 80%;
+  margin: auto;
+  margin-top: 30px;
+}
+
+.profile-card {
+  background: #fff;
+  color: #000;   /* ADD THIS */
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #ccc;
+}
+
+
+.skill-card {
+  background: #f7f7f7;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 5px #ddd;
+}
+
+.top-nav {
+  width: 100%;
+  padding: 20px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.logo-text {
+  font-size: 1.8rem;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.nav-links a {
+  margin: 0 15px;
+  color: #cfcfff;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: #b56cff;
+}
+
+.active-link {
+  color: #b56cff !important;
+  font-weight: bold;
+}
+
+.skill-card {
+  color: #000;
+}
+
+
+
+
+

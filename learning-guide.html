@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Learning Guide</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="browse-page">
+
+    <button class="side-btn" onclick="window.location.href='dashboard.html'">
+      ← Back to Dashboard
+    </button>
+
+    <h2 class="title">✨ AI Learning Guide</h2>
+    <p class="subtitle">
+      Not sure how to start? Let Gemini guide your learning path.
+    </p>
+
+    <input
+      type="text"
+      id="skillInput"
+      class="search-bar"
+      placeholder="Enter a skill (e.g. Web Development, Python)"
+    >
+
+    <button class="card-button" onclick="askGemini()">
+      Ask Gemini
+    </button>
+
+    <div class="ai-recommend">
+      <h3>Gemini says:</h3>
+      <p id="aiResponse">Waiting for your skill...</p>
+    </div>
+
+  </div>
+
+  <script src="learning-guide.js"></script>
+</body>
+</html>
