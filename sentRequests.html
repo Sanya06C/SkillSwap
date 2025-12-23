@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Sent Requests</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="browse-page">
+
+  <button class="side-btn" onclick="window.location.href='dashboard.html'">
+    ← Back
+  </button>
+
+  <h2 class="title">My Requests</h2>
+  <p class="subtitle">Track your mentorship requests</p>
+
+  <div id="sentList" class="mentor-list"></div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <script src="script.js"></script>
+  <script src="sentRequests.js"></script>
+
+</body>
+</html>

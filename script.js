@@ -31,6 +31,8 @@ function login() {
 function signup() {
   const email = document.getElementById("signup-email").value;
   const password = document.getElementById("signup-password").value;
+  const name = document.getElementById("signup-name").value;
+
 
   auth.createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
@@ -39,6 +41,7 @@ function signup() {
       // Save user data to Firestore
       return db.collection("users").doc(user.uid).set({
         email: email,
+        name: name,
         points: 0
       });
     })
