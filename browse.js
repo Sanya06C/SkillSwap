@@ -65,7 +65,8 @@ function displayMentors(mentors) {
       <p><strong>Days:</strong> ${m.days}</p>
       <p><strong>Time:</strong> ${m.time}</p>
       <p><strong>Description:</strong> ${m.description}</p>
-      <button onclick="sendRequest('${m.userID}', '${m.skillName}')">Request Mentor</button>
+      <button onclick="sendRequest('${m.userID}', '${m.skillName}')" id="btn-${m.userID}-${m.skillName}">Request Mentor</button>
+
     `;
 
     mentorList.appendChild(card);
@@ -80,7 +81,7 @@ function sendRequest(mentorID, skillName) {
 // Load everything when page opens
 loadSkills();
 
-function sendRequest(mentorID, skillName) {
+async function sendRequest(mentorID, skillName) {
   const user = auth.currentUser;
 
   if (!user) {
@@ -88,12 +89,24 @@ function sendRequest(mentorID, skillName) {
     return;
   }
 
-  // Prevent sending request to your own skill
   if (user.uid === mentorID) {
     alert("You cannot request yourself.");
     return;
   }
 
+  // 1️⃣ Check if request already exists
+  const existing = await db.collection("requests")
+    .where("from", "==", user.uid)
+    .where("to", "==", mentorID)
+    .where("skill", "==", skillName)
+    .get();
+
+  if (!existing.empty) {
+    alert("You already requested this mentor for this skill! Check Sent Requests.");
+    return;
+  }
+
+  // 2️⃣ Create new request
   db.collection("requests").add({
     from: user.uid,
     to: mentorID,
@@ -102,7 +115,7 @@ function sendRequest(mentorID, skillName) {
     timestamp: new Date()
   })
   .then(() => {
-    alert("Request sent successfully!");
+    alert("Your request has been sent! 🎉");
   })
   .catch(error => {
     alert("Error: " + error.message);
