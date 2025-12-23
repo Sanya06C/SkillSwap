@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Stats - SkillSwap</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="main-content points-container">
+    <h1 class="title">Performance Overview</h1>
+    <p class="subtitle">Track your growth and achievements in real-time</p>
+
+    <div class="stats-grid-squares">
+      <div class="stat-square">
+        <h3>Classes Taken</h3>
+        <div class="stat-number" id="classesTaken">0</div>
+      </div>
+      <div class="stat-square">
+        <h3>Classes Taught</h3>
+        <div class="stat-number" id="classesTaught">0</div>
+      </div>
+      <div class="stat-square highlighted">
+        <h3>Points Earned</h3>
+        <div class="stat-number" id="pointsEarned">0</div>
+      </div>
+    </div>
+
+    <div class="card skill-section">
+      <h3>Skill Proficiency</h3>
+      <div class="progress-container">
+        <div class="skill-group">
+          <div class="skill-info">
+            <span>JavaScript</span>
+            <span class="percentage">70%</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div id="progressJS" class="progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-info">
+            <span>UI/UX Design</span>
+            <span class="percentage">50%</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div id="progressUI" class="progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-info">
+            <span>Python</span>
+            <span class="percentage">90%</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div id="progressPython" class="progress-fill"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-stats">
+        <div class="card">
+          <h3>Recent Mentors</h3>
+          <ul id="topMentors"></ul>
+        </div>
+        <div class="card">
+          <h3>Achievements</h3>
+          <div id="badges"></div>
+        </div>
+    </div>
+
+    <div class="btn-wrapper">
+      <button class="back-btn" onclick="window.location.href='dashboard.html'">← Back to Dashboard</button>
+    </div>
+  </div>
+
+  <script src="points.js"></script>
+</body>
+</html>
