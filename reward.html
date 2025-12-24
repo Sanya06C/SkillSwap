@@ -5,22 +5,23 @@
   <title>Rewards - SkillSwap</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body class="rewards-page">
 
   <div class="centered-wrapper">
-    
     <h1 class="title">Rewards Store</h1>
     <p class="subtitle">Exchange your hard-earned points for exclusive perks</p>
 
     <div class="reward-balance-card">
-        <div class="balance-info">
-            <h3>Available Balance</h3>
-            <div class="huge-points" id="userPoints">320</div>
-        </div>
-        <div class="trophy-icon">🏆</div>
+      <div class="balance-info">
+        <h3>Available Balance</h3>
+        <div class="huge-points" id="userPoints">0</div>
+      </div>
+      <div class="trophy-icon">🏆</div>
     </div>
 
     <div class="rewards-grid">
+
       <div class="reward-item">
         <div class="reward-tag">Limited</div>
         <h3>1-on-1 Pro Session</h3>
@@ -40,16 +41,22 @@
         <h3>SkillSwap Swag</h3>
         <p>Get a custom SkillSwap sticker pack via mail</p>
         <div class="cost">1000 Points</div>
-        <button class="claim-btn disabled">Not Enough Points</button>
+        <button class="claim-btn">Claim Reward</button>
       </div>
+
     </div>
 
     <div class="btn-wrapper">
       <button class="back-btn" onclick="window.location.href='dashboard.html'">← Back to Dashboard</button>
     </div>
-    
   </div>
 
-  <script src="rewards.js"></script>
+  <!-- SAME FIREBASE SETUP AS OTHER PAGES -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <script src="script.js"></script> <!-- contains firebaseConfig, auth, db -->
+  <script src="reward.js"></script>
 </body>
 </html>
