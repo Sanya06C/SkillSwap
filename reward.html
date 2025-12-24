@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rewards - SkillSwap</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="rewards-page">
+
+  <div class="centered-wrapper">
+    
+    <h1 class="title">Rewards Store</h1>
+    <p class="subtitle">Exchange your hard-earned points for exclusive perks</p>
+
+    <div class="reward-balance-card">
+        <div class="balance-info">
+            <h3>Available Balance</h3>
+            <div class="huge-points" id="userPoints">320</div>
+        </div>
+        <div class="trophy-icon">🏆</div>
+    </div>
+
+    <div class="rewards-grid">
+      <div class="reward-item">
+        <div class="reward-tag">Limited</div>
+        <h3>1-on-1 Pro Session</h3>
+        <p>Private 30-min session with a Top Mentor</p>
+        <div class="cost">500 Points</div>
+        <button class="claim-btn">Claim Reward</button>
+      </div>
+
+      <div class="reward-item">
+        <h3>Premium Badge</h3>
+        <p>Add the 'Expert Teacher' gold badge to your profile</p>
+        <div class="cost">200 Points</div>
+        <button class="claim-btn">Claim Reward</button>
+      </div>
+
+      <div class="reward-item">
+        <h3>SkillSwap Swag</h3>
+        <p>Get a custom SkillSwap sticker pack via mail</p>
+        <div class="cost">1000 Points</div>
+        <button class="claim-btn disabled">Not Enough Points</button>
+      </div>
+    </div>
+
+    <div class="btn-wrapper">
+      <button class="back-btn" onclick="window.location.href='dashboard.html'">← Back to Dashboard</button>
+    </div>
+    
+  </div>
+
+  <script src="rewards.js"></script>
+</body>
+</html>
