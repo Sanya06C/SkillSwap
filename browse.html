@@ -1,38 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Browse Skills</title>
+
+  <!-- Remix Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div class="browse-page">
-    <button class="side-btn" onclick="window.location.href='dashboard.html'">
-  ← Back to Dashboard
-</button>
 
-    <h2 class="title">Browse Skills</h2>
+    <!-- Back button -->
+    <button class="side-btn" onclick="window.location.href='dashboard.html'">
+      <i class="ri-arrow-left-line icon"></i> Back to Dashboard
+    </button>
+
+    <h2 class="title">
+      <i class="ri-book-open-line icon-lg"></i> Browse Skills
+    </h2>
+
     <p class="subtitle">Find mentors and start learning</p>
 
+    <!-- Search Bar -->
     <input 
       type="text" 
       id="skillInput" 
-      placeholder="Type a skill (e.g. Python, UI/UX)"
+      placeholder="Search a skill (e.g., Python, UI/UX, Cooking)"
       class="search-bar"
     >
 
+    <!-- Dynamic Mentor List -->
     <div id="mentorList" class="mentor-list"></div>
   </div>
 
-    <!-- Firebase -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
-  <!-- Main Firebase code -->
+  <!-- Firebase main config -->
   <script src="script.js"></script>
 
-  <!-- Dynamic browse logic -->
+  <!-- Browse page logic -->
   <script src="browse.js"></script>
 
 </body>

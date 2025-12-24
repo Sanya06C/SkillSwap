@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>SkillSwap Dashboard</title>
+
+  <!-- Remix Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,19 +17,37 @@
     <div class="sidebar">
       <h2 class="logo">SkillSwap</h2>
 
-      <button class="side-btn" onclick="window.location.href='profile.html'">👤 My Profile</button>
-      <button class="side-btn" onclick="window.location.href='browse.html'">🔍 Explore Skills</button>
+      <button class="side-btn" onclick="window.location.href='profile.html'">
+        <i class="ri-user-3-line icon"></i> My Profile
+      </button>
 
-      <button class="side-btn" onclick="window.location.href='requests.html'">📩 Requests</button>
-      <button class="side-btn" onclick="window.location.href='sentRequests.html'">📤 Sent Requests</button>
+      <button class="side-btn" onclick="window.location.href='browse.html'">
+        <i class="ri-search-line icon"></i> Explore Skills
+      </button>
 
-      <button class="side-btn" onclick="window.location.href='reward.html'">🎁 Rewards</button>
-      <button class="side-btn" onclick="window.location.href='points.html'">⭐ Points Earned</button>
+      <button class="side-btn" onclick="window.location.href='requests.html'">
+        <i class="ri-mail-send-line icon"></i> Requests
+      </button>
+
+      <button class="side-btn" onclick="window.location.href='sentRequests.html'">
+        <i class="ri-send-plane-line icon"></i> Sent Requests
+      </button>
+
+      <button class="side-btn" onclick="window.location.href='reward.html'">
+        <i class="ri-gift-line icon"></i> Rewards
+      </button>
+
+      <button class="side-btn" onclick="window.location.href='points.html'">
+        <i class="ri-bar-chart-2-line icon"></i> Points Earned
+      </button>
     </div>
 
     <!-- RIGHT CONTENT -->
     <div class="main-content">
-      <h2 class="title">Welcome Back 👋</h2>
+      <h2 class="title">
+        <i class="ri-hand-heart-line icon"></i> Welcome Back
+      </h2>
+
       <p class="subtitle">What would you like to do today?</p>
 
       <!-- NEXT CLASS REMINDER CARD -->
@@ -37,15 +59,19 @@
 
       <!-- SKILL CARDS -->
       <div class="card">
-        <h3>Post a Skill</h3>
+        <h3><i class="ri-add-circle-line icon"></i> Post a Skill</h3>
         <p>Share what you know with others</p>
-        <button onclick="window.location.href='postskill.html'">Post Skill</button>
+        <button onclick="window.location.href='postskill.html'">
+          <i class="ri-upload-line icon"></i> Post Skill
+        </button>
       </div>
 
       <div class="card">
-        <h3>Browse Skills</h3>
+        <h3><i class="ri-book-open-line icon"></i> Browse Skills</h3>
         <p>Learn from peers across domains</p>
-        <button onclick="window.location.href='browse.html'">Browse</button>
+        <button onclick="window.location.href='browse.html'">
+          <i class="ri-compass-line icon"></i> Browse
+        </button>
       </div>
     </div>
 
