@@ -26,50 +26,31 @@
       </div>
     </div>
 
+    <!-- LEVEL SYSTEM -->
+    <div class="card level-box">
+    <h3>Your Level</h3>
+    <p id="userLevelText"></p>
+
+    <div class="progress-bar-bg">
+      <div id="levelProgress" class="progress-fill"></div>
+    </div>
+</div>
+
+
+
+    <!-- SKILL PROGRESS (Dynamic) -->
     <div class="card skill-section">
       <h3>Skill Proficiency</h3>
-      <div class="progress-container">
-        <div class="skill-group">
-          <div class="skill-info">
-            <span>JavaScript</span>
-            <span class="percentage">70%</span>
-          </div>
-          <div class="progress-bar-bg">
-            <div id="progressJS" class="progress-fill"></div>
-          </div>
-        </div>
-
-        <div class="skill-group">
-          <div class="skill-info">
-            <span>UI/UX Design</span>
-            <span class="percentage">50%</span>
-          </div>
-          <div class="progress-bar-bg">
-            <div id="progressUI" class="progress-fill"></div>
-          </div>
-        </div>
-
-        <div class="skill-group">
-          <div class="skill-info">
-            <span>Python</span>
-            <span class="percentage">90%</span>
-          </div>
-          <div class="progress-bar-bg">
-            <div id="progressPython" class="progress-fill"></div>
-          </div>
-        </div>
-      </div>
+      <div id="skillProgressContainer"></div>
     </div>
 
+    <!-- RECENT MENTORS / STUDENTS -->
     <div class="footer-stats">
-        <div class="card">
-          <h3>Recent Mentors</h3>
-          <ul id="topMentors"></ul>
-        </div>
-        <div class="card">
-          <h3>Achievements</h3>
-          <div id="badges"></div>
-        </div>
+      <div class="card">
+        <h3>Recent Mentors / Students</h3>
+        <ul id="recentUsers"></ul>
+
+      </div>
     </div>
 
     <div class="btn-wrapper">
@@ -77,6 +58,12 @@
     </div>
   </div>
 
+  <!-- Using compat scripts like rest of your project -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="script.js"></script>
   <script src="points.js"></script>
+
 </body>
 </html>
