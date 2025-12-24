@@ -20,7 +20,6 @@
       <button class="side-btn" onclick="window.location.href='sentRequests.html'">📤 Sent Requests</button>
 
       <button class="side-btn" onclick="window.location.href='reward.html'">🎁 Rewards</button>
-      <!-- Updated button to navigate to points page -->
       <button class="side-btn" onclick="window.location.href='points.html'">⭐ Points Earned</button>
     </div>
 
@@ -29,6 +28,14 @@
       <h2 class="title">Welcome Back 👋</h2>
       <p class="subtitle">What would you like to do today?</p>
 
+      <!-- NEXT CLASS REMINDER CARD -->
+      <div class="card" id="nextClassCard">
+        <h3>Next Class</h3>
+        <p id="nextClassInfo">Loading...</p>
+        <p id="countdownTimer"></p>
+      </div>
+
+      <!-- SKILL CARDS -->
       <div class="card">
         <h3>Post a Skill</h3>
         <p>Share what you know with others</p>
@@ -44,5 +51,16 @@
 
   </div>
 
+  <!-- Firebase scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <!-- Your scripts -->
+  <script src="script.js"></script>
+  <script src="reminder.js"></script> 
+
 </body>
 </html>
+
+
