@@ -658,3 +658,16 @@ input:focus, .search-bar:focus {
 .level-box p {
   margin-bottom: 12px; /* THIS CREATES THE GAP */
 }
+
+.icon {
+  font-size: 20px;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+.icon-lg {
+  font-size: 26px;
+  margin-bottom: 8px;
+}
+
+

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+
   <meta charset="UTF-8">
   <title>Your Stats - SkillSwap</title>
   <link rel="stylesheet" href="style.css">
@@ -13,22 +15,26 @@
 
     <div class="stats-grid-squares">
       <div class="stat-square">
-        <h3>Classes Taken</h3>
+        <h3><i class="ri-book-open-line icon-lg"></i> Classes Taken</h3>
+
         <div class="stat-number" id="classesTaken">0</div>
       </div>
       <div class="stat-square">
-        <h3>Classes Taught</h3>
+        <h3><i class="ri-magic-fill icon-lg"></i> Classes Taught</h3>
+
         <div class="stat-number" id="classesTaught">0</div>
       </div>
       <div class="stat-square highlighted">
-        <h3>Points Earned</h3>
+        <h3><i class="ri-award-fill icon-lg"></i> Points Earned</h3>
+
         <div class="stat-number" id="pointsEarned">0</div>
       </div>
     </div>
 
     <!-- LEVEL SYSTEM -->
     <div class="card level-box">
-    <h3>Your Level</h3>
+    <h3><i class="ri-bar-chart-box-fill icon"></i> Your Level</h3>
+
     <p id="userLevelText"></p>
 
     <div class="progress-bar-bg">
@@ -40,14 +46,16 @@
 
     <!-- SKILL PROGRESS (Dynamic) -->
     <div class="card skill-section">
-      <h3>Skill Proficiency</h3>
+      <h3><i class="ri-graduation-cap-fill icon"></i> Skill Proficiency</h3>
+
       <div id="skillProgressContainer"></div>
     </div>
 
     <!-- RECENT MENTORS / STUDENTS -->
     <div class="footer-stats">
       <div class="card">
-        <h3>Recent Mentors / Students</h3>
+        <h3><i class="ri-team-fill icon"></i> Recent Mentors / Students</h3>
+
         <ul id="recentUsers"></ul>
 
       </div>
