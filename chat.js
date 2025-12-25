@@ -1,21 +1,3 @@
-async function ensureUnreadInit(chatRef, myUid) {
-  const snap = await chatRef.get();
-  if (!snap.exists) return;
-
-  const data = snap.data();
-  if (!data.unread || data.unread[myUid] === undefined) {
-    await chatRef.set(
-      {
-        unread: {
-          ...(data.unread || {}),
-          [myUid]: 0
-        }
-      },
-      { merge: true }
-    );
-  }
-}
-
 // ===== GET CHAT ID FROM URL =====
 const params = new URLSearchParams(window.location.search);
 const chatId = params.get("chatId");
@@ -29,15 +11,16 @@ function loadMessages() {
   db.collection("chats")
     .doc(chatId)
     .collection("messages")
-    .orderBy("timestamp")
+    .orderBy("timestamp", "asc")
     .onSnapshot(snapshot => {
       const box = document.getElementById("chatBox");
       box.innerHTML = "";
 
       snapshot.forEach(doc => {
         const msg = doc.data();
-        const div = document.createElement("div");
+        if (!msg.text) return;
 
+        const div = document.createElement("div");
         div.className =
           msg.senderId === firebase.auth().currentUser.uid
             ? "my-msg"
@@ -51,7 +34,7 @@ function loadMessages() {
     });
 }
 
-// ===== SEND MESSAGE =====
+// ===== SEND MESSAGE (INCREMENT UNREAD FOR OTHER USER) =====
 async function sendMessage() {
   const input = document.getElementById("msgInput");
   const text = input.value.trim();
@@ -60,14 +43,27 @@ async function sendMessage() {
   const user = firebase.auth().currentUser;
   const chatRef = db.collection("chats").doc(chatId);
 
+  // Get request to know participants
+  const reqSnap = await db.collection("requests").doc(chatId).get();
+  if (!reqSnap.exists) return;
+
+  const { from, to } = reqSnap.data();
+  const otherUid = user.uid === from ? to : from;
+
+  // Create / update chat doc + increment unread
   await chatRef.set(
     {
+      users: [from, to],
       lastMessage: text,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      unread: {
+        [otherUid]: firebase.firestore.FieldValue.increment(1)
+      }
     },
     { merge: true }
   );
 
+  // Add message
   await chatRef.collection("messages").add({
     senderId: user.uid,
     text,
@@ -77,30 +73,19 @@ async function sendMessage() {
   input.value = "";
 }
 
-
 // ===== START AFTER LOGIN =====
 waitForAuth(async user => {
   const chatRef = db.collection("chats").doc(chatId);
 
   loadMessages();
-});
 
-async function markChatAsRead() {
-  const user = firebase.auth().currentUser;
-  if (!user) return;
-
-  await db.collection("chats").doc(chatId).set(
+  // 🔔 RESET MY UNREAD COUNT WHEN CHAT OPENS
+  await chatRef.set(
     {
-      lastReadAt: {
-        [user.uid]: firebase.firestore.FieldValue.serverTimestamp()
+      unread: {
+        [user.uid]: 0
       }
     },
     { merge: true }
   );
-}
-
-window.addEventListener("load", () => {
-  setTimeout(markChatAsRead, 300);
 });
-
-
