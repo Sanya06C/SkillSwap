@@ -1,113 +1,69 @@
-
-
-// ===============================
-// STEP 1: Get other user's UID from URL
-// ===============================
+// ===== GET CHAT ID FROM URL =====
 const params = new URLSearchParams(window.location.search);
-const otherUid = params.get("uid");
+const chatId = params.get("chatId");
 
-console.log("Other UID:", otherUid);
-
-let currentChatId = "";
-
-
-// ===============================
-// STEP 2: Create unique chat ID
-// ===============================
-function getChatId(uid1, uid2) {
-  return [uid1, uid2].sort().join("_");
+if (!chatId) {
+  alert("Chat ID missing");
 }
 
-
-// ===============================
-// STEP 3: Create chat if not exists
-// ===============================
-async function createChat(myUid, otherUid) {
-  currentChatId = getChatId(myUid, otherUid);
-
-  const chatRef = db.collection("chats").doc(currentChatId);
-  const chatSnap = await chatRef.get();
-
-  if (!chatSnap.exists) {
-    await chatRef.set({
-      users: [myUid, otherUid],
-      lastMessage: "",
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-  }
-
-  loadMessages();
-}
-
-
-// ===============================
-// STEP 4: Load messages in real time
-// ===============================
+// ===== LOAD MESSAGES =====
 function loadMessages() {
   db.collection("chats")
-    .doc(currentChatId)
+    .doc(chatId)
     .collection("messages")
     .orderBy("timestamp")
     .onSnapshot(snapshot => {
-
-      const chatBox = document.getElementById("chatBox");
-      chatBox.innerHTML = "";
+      const box = document.getElementById("chatBox");
+      box.innerHTML = "";
 
       snapshot.forEach(doc => {
         const msg = doc.data();
-
         const div = document.createElement("div");
+
         div.className =
-          msg.senderId === auth.currentUser.uid
+          msg.senderId === firebase.auth().currentUser.uid
             ? "my-msg"
             : "other-msg";
 
         div.textContent = msg.text;
-        chatBox.appendChild(div);
+        box.appendChild(div);
       });
 
-      chatBox.scrollTop = chatBox.scrollHeight;
+      box.scrollTop = box.scrollHeight;
     });
 }
 
-
-// ===============================
-// STEP 5: Send message
-// ===============================
+// ===== SEND MESSAGE =====
 async function sendMessage() {
   const input = document.getElementById("msgInput");
   const text = input.value.trim();
   if (!text) return;
 
-  const user = auth.currentUser;
+  const user = firebase.auth().currentUser;
 
-  await db
-    .collection("chats")
-    .doc(currentChatId)
-    .collection("messages")
-    .add({
-      senderId: user.uid,
-      text: text,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    });
+  const chatRef = db.collection("chats").doc(chatId);
 
-  await db.collection("chats").doc(currentChatId).update({
-    lastMessage: text,
-    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  // ✅ ENSURE CHAT DOCUMENT EXISTS
+  await chatRef.set(
+    {
+      lastMessage: text,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    },
+    { merge: true }
+  );
+
+  // ✅ ADD MESSAGE
+  await chatRef.collection("messages").add({
+    senderId: user.uid,
+    text: text,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
   });
 
   input.value = "";
 }
 
 
-// ===============================
-// STEP 6: Start chat AFTER login
-// ===============================
-waitForAuth(user => {
-  if (!otherUid) {
-    alert("No user selected to chat with");
-    return;
-  }
-
-  createChat(user.uid, otherUid);
+// ===== START AFTER LOGIN =====
+waitForAuth(() => {
+  loadMessages();
 });

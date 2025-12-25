@@ -49,7 +49,7 @@ function loadRequests(user) {
 
           ${
             r.status === "accepted" || r.status === "completed"
-              ? `<button onclick="openChat('${r.from}')">Chat</button>`
+              ? `<button onclick="openChat('${doc.id}')">Chat</button>`
               : ""
           }
 
@@ -107,12 +107,17 @@ function completeRequest(requestID, learnerID) {
   batch.update(requestRef, { status: "completed" });
   batch.update(learnerRef, { points: firebase.firestore.FieldValue.increment(10) });
 
-  batch.commit().then(() => {
-    alert("Session marked as completed! Learner gets +10 points 🎉");
-    waitForAuth(loadRequests);
-  });
+  batch.commit().then(async () => {
+
+  
+
+  alert("Request accepted! +20 points earned 🎉");
+  waitForAuth(loadRequests);
+});
+
 }
 
-function openChat(otherUid) {
-  window.location.href = `chat.html?uid=${otherUid}`;
+function openChat(requestId) {
+  window.location.href = `chat.html?chatId=${requestId}`;
 }
+

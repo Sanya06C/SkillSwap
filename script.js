@@ -32,7 +32,8 @@ function signup() {
   const email = document.getElementById("signup-email").value;
   const password = document.getElementById("signup-password").value;
   const name = document.getElementById("signup-name").value;
-
+  const branch = document.getElementById("branch").value;
+  const year = document.getElementById("year").value;
 
   auth.createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
@@ -40,13 +41,12 @@ function signup() {
 
       // Save user data to Firestore
       return db.collection("users").doc(user.uid).set({
-    name: name,
-    email: email,
-    branch: branch,
-    year: year,
-    points: 0
-    });
-
+        name: name,
+        email: email,
+        branch: branch,
+        year: year,
+        points: 0
+      });
     })
     .then(() => {
       alert("Account created successfully!");
@@ -56,6 +56,7 @@ function signup() {
       alert(error.message);
     });
 }
+
 
 function postSkill() {
 

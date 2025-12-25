@@ -53,7 +53,7 @@ function loadSentRequests(user) {
 
           ${
             r.status === "accepted" || r.status === "completed"
-              ? `<button onclick="openChat('${r.to}')">Chat</button>`
+              ? `<button onclick="openChat('${doc.id}')">Chat</button>`
               : ""
           }
         `;
@@ -70,6 +70,6 @@ function loadSentRequests(user) {
 waitForAuth(loadSentRequests);
 
 // 🔥 CHAT REDIRECT FUNCTION
-function openChat(otherUid) {
-  window.location.href = `chat.html?uid=${otherUid}`;
+function openChat(requestId) {
+  window.location.href = `chat.html?chatId=${requestId}`;
 }

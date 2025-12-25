@@ -1,9 +1,9 @@
-// auth.js
 function waitForAuth(callback) {
-  const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+  const unsub = firebase.auth().onAuthStateChanged(user => {
     if (user) {
-      unsubscribe(); // stop listening
+      unsub();
       callback(user);
     }
   });
 }
+

@@ -1,21 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>SkillSwap Chat</title>
+  <title>Chat</title>
   <link rel="stylesheet" href="chat.css">
 </head>
 <body>
 
   <h2>Chat</h2>
 
-  <!-- Messages -->
   <div id="chatBox"></div>
 
-  <!-- Input -->
   <div class="input-area">
-    <input type="text" id="msgInput" placeholder="Type a message">
-    <button onclick="sendMessage()">Send</button>
+    <input id="msgInput" placeholder="Type a message" />
+    <button type="button" onclick="sendMessage()">Send</button>
   </div>
 
   <!-- Firebase SDKs -->
@@ -23,7 +20,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
-  <!-- Your existing firebase init -->
+  <!-- Your existing Firebase init -->
   <script src="script.js"></script>
 
   <!-- Auth helper -->
