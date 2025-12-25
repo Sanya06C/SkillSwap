@@ -48,6 +48,13 @@ function loadRequests(user) {
           <p><strong>Status:</strong> ${r.status}</p>
 
           ${
+            r.status === "accepted" || r.status === "completed"
+              ? `<button onclick="openChat('${r.from}')">Chat</button>`
+              : ""
+          }
+
+
+          ${
             r.status === "pending"
               ? `<button onclick="acceptRequest('${doc.id}', '${r.from}')">Accept</button>`
               : r.status === "accepted"
@@ -104,4 +111,8 @@ function completeRequest(requestID, learnerID) {
     alert("Session marked as completed! Learner gets +10 points 🎉");
     waitForAuth(loadRequests);
   });
+}
+
+function openChat(otherUid) {
+  window.location.href = `chat.html?uid=${otherUid}`;
 }

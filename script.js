@@ -90,3 +90,36 @@ function postSkill() {
   });
 }
 
+// LOGOUT FUNCTIONALITY
+document.addEventListener("DOMContentLoaded", () => {
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      auth.signOut()
+        .then(() => {
+          window.location.href = "login.html";
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+    });
+  }
+});
+
+// PROTECT DASHBOARD FROM UNAUTH USERS
+auth.onAuthStateChanged(user => {
+  if (!user && window.location.pathname.includes("dashboard")) {
+    window.location.href = "login.html";
+  }
+});
+
+function logoutUser() {
+  auth.signOut()
+    .then(() => {
+      window.location.href = "login.html";
+    })
+    .catch(error => {
+      alert(error.message);
+    });
+}

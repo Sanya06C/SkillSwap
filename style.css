@@ -670,4 +670,12 @@ input:focus, .search-bar:focus {
   margin-bottom: 8px;
 }
 
+.logout-btn {
+  background: #ff4d4d;
+  color: white;
+}
+
+.logout-btn:hover {
+  background: #e63939;
+}
 

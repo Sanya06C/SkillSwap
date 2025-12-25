@@ -9,6 +9,7 @@ function waitForAuth(callback) {
   });
 }
 
+
 function loadSentRequests(user) {
   db.collection("requests")
     .where("from", "==", user.uid)
@@ -33,27 +34,42 @@ function loadSentRequests(user) {
         card.className = "mentor-card";
 
         card.innerHTML = `
-  <h3>${r.skill}</h3>
+          <h3>${r.skill}</h3>
 
-  <p><strong>Mentor:</strong> ${mentor.name}</p>
-  <p><strong>Email:</strong> ${mentor.email}</p>
-  <p><strong>Branch:</strong> ${mentor.Branch}</p>
-  <p><strong>Year:</strong> ${mentor.year}</p>
+          <p><strong>Mentor:</strong> ${mentor.name}</p>
+          <p><strong>Email:</strong> ${mentor.email}</p>
+          <p><strong>Branch:</strong> ${mentor.Branch}</p>
+          <p><strong>Year:</strong> ${mentor.year}</p>
 
-  <p><strong>Status:</strong> ${
-    r.status === "pending"
-  ? "⏳ Pending"
-  : r.status === "accepted"
-  ? "✔ Accepted"
-  : "🏁 Completed"
+          <p><strong>Status:</strong>
+            ${
+              r.status === "pending"
+                ? "⏳ Pending"
+                : r.status === "accepted"
+                ? "✔ Accepted"
+                : "🏁 Completed"
+            }
+          </p>
 
-  }</p>
-`;
-
+          ${
+            r.status === "accepted" || r.status === "completed"
+              ? `<button onclick="openChat('${r.to}')">Chat</button>`
+              : ""
+          }
+        `;
 
         sentList.appendChild(card);
       }
+    })
+    .catch(err => {
+      console.error("Error loading sent requests:", err);
     });
 }
 
+
 waitForAuth(loadSentRequests);
+
+// 🔥 CHAT REDIRECT FUNCTION
+function openChat(otherUid) {
+  window.location.href = `chat.html?uid=${otherUid}`;
+}
