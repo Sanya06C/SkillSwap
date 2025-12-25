@@ -1,3 +1,21 @@
+async function ensureUnreadInit(chatRef, myUid) {
+  const snap = await chatRef.get();
+  if (!snap.exists) return;
+
+  const data = snap.data();
+  if (!data.unread || data.unread[myUid] === undefined) {
+    await chatRef.set(
+      {
+        unread: {
+          ...(data.unread || {}),
+          [myUid]: 0
+        }
+      },
+      { merge: true }
+    );
+  }
+}
+
 // ===== GET CHAT ID FROM URL =====
 const params = new URLSearchParams(window.location.search);
 const chatId = params.get("chatId");
@@ -40,10 +58,8 @@ async function sendMessage() {
   if (!text) return;
 
   const user = firebase.auth().currentUser;
-
   const chatRef = db.collection("chats").doc(chatId);
 
-  // ✅ ENSURE CHAT DOCUMENT EXISTS
   await chatRef.set(
     {
       lastMessage: text,
@@ -52,10 +68,9 @@ async function sendMessage() {
     { merge: true }
   );
 
-  // ✅ ADD MESSAGE
   await chatRef.collection("messages").add({
     senderId: user.uid,
-    text: text,
+    text,
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   });
 
@@ -64,6 +79,28 @@ async function sendMessage() {
 
 
 // ===== START AFTER LOGIN =====
-waitForAuth(() => {
+waitForAuth(async user => {
+  const chatRef = db.collection("chats").doc(chatId);
+
   loadMessages();
 });
+
+async function markChatAsRead() {
+  const user = firebase.auth().currentUser;
+  if (!user) return;
+
+  await db.collection("chats").doc(chatId).set(
+    {
+      lastReadAt: {
+        [user.uid]: firebase.firestore.FieldValue.serverTimestamp()
+      }
+    },
+    { merge: true }
+  );
+}
+
+window.addEventListener("load", () => {
+  setTimeout(markChatAsRead, 300);
+});
+
+
