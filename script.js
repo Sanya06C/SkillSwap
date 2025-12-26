@@ -1,4 +1,7 @@
-// Firebase config
+// 🔹 DEBUG
+console.log("script.js loaded");
+
+// 🔹 Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyAhhMuccY9MnOxSDhlJgnAdpVOQYubGLbg",
   authDomain: "skillswap-e13ee.firebaseapp.com",
@@ -8,43 +11,49 @@ const firebaseConfig = {
   appId: "1:966257721764:web:eeffd75d8322265dffc131"
 };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+// 🔹 Initialize Firebase
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+// 🔹 Firebase services
 const auth = firebase.auth();
 const db = firebase.firestore();
 
 
-// Login function
-function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  auth.signInWithEmailAndPassword(email, password)
-    .then(() => {
-      window.location.href = "dashboard.html";
-    })
-    .catch(error => {
-      alert(error.message);
-    });
-}
-
+// ================= SIGNUP =================
 function signup() {
-  const email = document.getElementById("signup-email").value;
+  console.log("Signup clicked");
+
+  const email = document.getElementById("signup-email").value.trim();
   const password = document.getElementById("signup-password").value;
   const name = document.getElementById("signup-name").value;
   const branch = document.getElementById("branch").value;
   const year = document.getElementById("year").value;
 
+  if (!email || !password || !name || !branch || !year) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  // ✅ Allow only Somaiya emails
+  const allowedDomains = ["@somaiya.edu", "@somaiya.edu.in"];
+  const isAllowed = allowedDomains.some(domain => email.endsWith(domain));
+
+  if (!isAllowed) {
+    alert("Please use your official Somaiya email ID");
+    return;
+  }
+
   auth.createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
       const user = userCredential.user;
 
-      // Save user data to Firestore
       return db.collection("users").doc(user.uid).set({
-        name: name,
-        email: email,
-        branch: branch,
-        year: year,
+        name,
+        email,
+        branch,
+        year,
         points: 0
       });
     })
@@ -53,68 +62,35 @@ function signup() {
       window.location.href = "login.html";
     })
     .catch((error) => {
+      console.error(error);
       alert(error.message);
     });
 }
 
 
-function postSkill() {
+// ================= LOGIN =================
+function login() {
+  console.log("Login clicked");
 
-  const skillName = document.getElementById("skillName").value;
-  const days = document.getElementById("days").value;
-  const time = document.getElementById("time").value;
-  const desc = document.getElementById("desc").value;
-  const branch = document.getElementById("branch").value;
-  const year = document.getElementById("year").value;
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
 
-
-  const user = auth.currentUser;
-
-  if (!user) {
-    alert("Please login first.");
+  if (!email || !password) {
+    alert("Please enter email and password");
     return;
   }
 
-  db.collection("skills").add({
-      userID: user.uid,
-      skillName: skillName,
-      days: days,
-      time: time,
-      description: desc
-  })
-  .then(() => {
-      alert("Skill posted successfully!");
+  auth.signInWithEmailAndPassword(email, password)
+    .then(() => {
       window.location.href = "dashboard.html";
-  })
-  .catch(error => {
+    })
+    .catch((error) => {
       alert(error.message);
-  });
+    });
 }
 
-// LOGOUT FUNCTIONALITY
-document.addEventListener("DOMContentLoaded", () => {
-  const logoutBtn = document.getElementById("logoutBtn");
 
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
-      auth.signOut()
-        .then(() => {
-          window.location.href = "login.html";
-        })
-        .catch(error => {
-          alert(error.message);
-        });
-    });
-  }
-});
-
-// PROTECT DASHBOARD FROM UNAUTH USERS
-auth.onAuthStateChanged(user => {
-  if (!user && window.location.pathname.includes("dashboard")) {
-    window.location.href = "login.html";
-  }
-});
-
+// ================= LOGOUT =================
 function logoutUser() {
   auth.signOut()
     .then(() => {
@@ -124,3 +100,22 @@ function logoutUser() {
       alert(error.message);
     });
 }
+
+
+// ================= AUTH PROTECTION =================
+auth.onAuthStateChanged(user => {
+  const path = window.location.pathname;
+
+  // Protect dashboard & internal pages
+  if (
+    !user &&
+    (path.includes("dashboard") ||
+     path.includes("profile") ||
+     path.includes("browse") ||
+     path.includes("requests") ||
+     path.includes("reward") ||
+     path.includes("points"))
+  ) {
+    window.location.href = "login.html";
+  }
+});
