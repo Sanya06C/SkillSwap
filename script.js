@@ -119,3 +119,49 @@ auth.onAuthStateChanged(user => {
     window.location.href = "login.html";
   }
 });
+
+// ================= POST SKILL =================
+function postSkill() {
+  console.log("Post Skill clicked");
+
+  const skillName = document.getElementById("skillName").value.trim();
+  const days = document.getElementById("days").value.trim();
+  const time = document.getElementById("time").value.trim();
+  const desc = document.getElementById("desc").value.trim();
+
+  // 🛑 Basic validation
+  if (!skillName || !days || !time || !desc) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("You must be logged in");
+    return;
+  }
+
+  // 📦 Save skill in Firestore
+  db.collection("skills").add({
+    skillName: skillName,
+    days: days,
+    time: time,
+    description: desc,
+    mentorId: user.uid,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  })
+  .then(() => {
+    alert("Skill posted successfully 🎉");
+    
+    // clear inputs
+    document.getElementById("skillName").value = "";
+    document.getElementById("days").value = "";
+    document.getElementById("time").value = "";
+    document.getElementById("desc").value = "";
+  })
+  .catch(error => {
+    console.error(error);
+    alert("Error posting skill");
+  });
+}
