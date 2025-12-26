@@ -1,24 +1,28 @@
 const mentorList = document.getElementById("mentorList");
 const skillInput = document.getElementById("skillInput");
 
-// Fetch all skills + mentor info
+let mentors = [];
+
+// ================= LOAD SKILLS =================
 function loadSkills() {
   db.collection("skills").get().then(async (snapshot) => {
-    const mentors = [];
+    mentors = [];
 
     for (const doc of snapshot.docs) {
       const skillData = doc.data();
-      const userID = skillData.userID;
+      const mentorId = skillData.mentorId; // ✅ correct key
 
-      // Fetch mentor/user details
-      const userDoc = await db.collection("users").doc(userID).get();
+      const userDoc = await db.collection("users").doc(mentorId).get();
+      if (!userDoc.exists) continue;
+
       const userData = userDoc.data();
 
-      // Merge skill + user info together
       mentors.push({
+        mentorId,
         mentorName: userData.name,
         mentorEmail: userData.email,
-        userID: userID,
+        branch: userData.branch,
+        year: userData.year,
         skillName: skillData.skillName,
         days: skillData.days,
         time: skillData.time,
@@ -26,75 +30,55 @@ function loadSkills() {
       });
     }
 
-    // Show all mentors initially
     displayMentors(mentors);
 
-    // Enable search filter
+    // 🔍 Search filter
     skillInput.addEventListener("input", () => {
       const value = skillInput.value.toLowerCase();
-
       const filtered = mentors.filter(m =>
         m.skillName.toLowerCase().includes(value)
       );
-
       displayMentors(filtered);
     });
   })
-  .catch(err => {
-    console.error("Error loading skills:", err);
-  });
+  .catch(err => console.error(err));
 }
 
-// Display mentor cards
-function displayMentors(mentors) {
+// ================= DISPLAY =================
+function displayMentors(list) {
   mentorList.innerHTML = "";
 
-  if (mentors.length === 0) {
+  if (list.length === 0) {
     mentorList.innerHTML = "<p>No mentors found.</p>";
     return;
   }
 
-  mentors.forEach(m => {
+  list.forEach(m => {
     const card = document.createElement("div");
     card.className = "mentor-card";
 
-    // Fetch mentor's branch + year using mentor's userID
-db.collection("users").doc(m.userID).get().then(userDoc => {
-  let userData = userDoc.data();
+    card.innerHTML = `
+      <h3>${m.skillName}</h3>
 
-  card.innerHTML = `
-    <h3>${m.skillName}</h3>
+      <p><strong>Mentor:</strong> ${m.mentorName}</p>
+      <p><strong>Email:</strong> ${m.mentorEmail}</p>
+      <p><strong>Branch:</strong> ${m.branch}</p>
+      <p><strong>Year:</strong> ${m.year}</p>
 
-    <p><strong>Mentor:</strong> ${m.mentorName}</p>
-    <p><strong>Email:</strong> ${m.mentorEmail}</p>
+      <p><strong>Days:</strong> ${m.days}</p>
+      <p><strong>Time:</strong> ${m.time}</p>
+      <p><strong>Description:</strong> ${m.description}</p>
 
-    <p><strong>Branch:</strong> ${userData.Branch}</p>
-    <p><strong>Year:</strong> ${userData.year}</p>
-
-    <p><strong>Days:</strong> ${m.days}</p>
-    <p><strong>Time:</strong> ${m.time}</p>
-    <p><strong>Description:</strong> ${m.description}</p>
-
-    <button onclick="sendRequest('${m.userID}', '${m.skillName}')" 
-            id="btn-${m.userID}-${m.skillName}">
-      Request Mentor
-    </button>
-  `;
-});
-
+      <button onclick="sendRequest('${m.mentorId}', '${m.skillName}')">
+        Request Mentor
+      </button>
+    `;
 
     mentorList.appendChild(card);
   });
 }
 
-// Placeholder function (we will complete this in Request System)
-function sendRequest(mentorID, skillName) {
-  alert("Request system coming next!");
-}
-
-// Load everything when page opens
-loadSkills();
-
+// ================= SEND REQUEST =================
 async function sendRequest(mentorID, skillName) {
   const user = auth.currentUser;
 
@@ -108,7 +92,6 @@ async function sendRequest(mentorID, skillName) {
     return;
   }
 
-  // 1️⃣ Check if request already exists
   const existing = await db.collection("requests")
     .where("from", "==", user.uid)
     .where("to", "==", mentorID)
@@ -116,22 +99,19 @@ async function sendRequest(mentorID, skillName) {
     .get();
 
   if (!existing.empty) {
-    alert("You already requested this mentor for this skill! Check Sent Requests.");
+    alert("You already requested this mentor for this skill!");
     return;
   }
 
-  // 2️⃣ Create new request
-  db.collection("requests").add({
+  await db.collection("requests").add({
     from: user.uid,
     to: mentorID,
     skill: skillName,
     status: "pending",
     timestamp: new Date()
-  })
-  .then(() => {
-    alert("Your request has been sent! 🎉");
-  })
-  .catch(error => {
-    alert("Error: " + error.message);
   });
+
+  alert("Request sent successfully 🎉");
 }
+
+loadSkills();
